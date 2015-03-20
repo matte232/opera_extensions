@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+
+    "name": "Tab actions",
+    "description": "Emulate opera 12 activate last tab opened from current tab",
+    "version": "1.0",
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "page_action" :
+    {
+        "default_title" : "Tab actons"
+    },
+    "permissions" : [
+        "tabs"
+    ]
+
+  
+}

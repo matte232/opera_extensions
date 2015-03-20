@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+
+    "name": "SvD enabler",
+    "description": "Remove the annoying block at SvD.se",
+    "version": "1.0",
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "page_action" :
+    {
+        "default_title" : "SvD cookie remover"
+    },
+    "permissions" : [
+        "contentSettings", "http://*.svd.se/", "http://svd.se/"
+    ]
+
+  
+}
