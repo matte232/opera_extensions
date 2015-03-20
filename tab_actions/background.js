@@ -10,40 +10,45 @@ Object.prototype.removeItem = function (key) {
 
 chrome.tabs.onCreated.addListener(function(tab) {
 
-    var newTab = {
-        "parent":tab.openerTabId,
-        "children": [],
-        "window":tab.windowId,
-        "alive":true
-    };
-    
-    map[tab.id] = newTab;
-    if(typeof(newTab.parent) !== "undefined") {
-        map[newTab.parent].children.push(tab.id);
-    }
+    try {//lets cheat
+        var newTab = {
+            "parent":tab.openerTabId,
+            "children": [],
+            "window":tab.windowId,
+            "alive":true
+        };
+        
+        map[tab.id] = newTab;
+        if(typeof(newTab.parent) !== "undefined") {
+            map[newTab.parent].children.push(tab.id);
+        }
+    }catch(err) {}//and be silent..
 });
 
 
 
 chrome.tabs.onRemoved.addListener(
     function(tabId, removeInfo) {
-        if(removeInfo.isWindowClosing) {
-            return;
-        }
-        var cur = map[tabId];
-        cur.alive = false;
-
-        if(cur.children.length > 0) {
-            var next = cur.children.pop();
-            chrome.tabs.update(next,
-                               {'active':true});
-        } else {
-            //find parent, remove from parents children and remove self.
-            //activate parents next
+        try {//lets cheat
+            if(removeInfo.isWindowClosing) {
+                return;
+            }
+            var cur = map[tabId];
+            cur.alive = false;
             
-            activeParentNext(cur.parent, cur.id);
-            map.removeItem(parent);
+            if(cur.children.length > 0) {
+                var next = cur.children.pop();
+                chrome.tabs.update(next,
+                                   {'active':true});
+            } else {
+                //find parent, remove from parents children and remove self.
+                //activate parents next
+                
+                activeParentNext(cur.parent, cur.id);
+                map.removeItem(parent);
+            }
         }
+        catch(err) {}//and be silent..
     }
 );
 
